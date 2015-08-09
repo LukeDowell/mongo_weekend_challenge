@@ -5,15 +5,20 @@ function pushMessagesToTheDomAndRemoveAllOfTheOldMessages(messages) {
     var container = $(".post-wrapper");
     container.empty();
     for(var i = 0; i < messages.length; i++) {
-        var messageDiv = $("<div/>", {class: "message"});
-        var messageAuthor = $("<h3/>", {text: messages[i].author});
+        var messagePanel = $("<div/>", {class: "panel panel-info"});
+        var messagePanelHead = $("<div/>", {class: "panel-heading"});
+        var messagePanelBody = $("<div/>", {class: "panel-body"});
+        var messageAuthor = $("<h3/>", {text: messages[i].author + " said..."});
         var messageContent = $("<p/>", {text: messages[i].content});
 
-        messageDiv.append(messageAuthor);
-        messageDiv.append(messageContent);
-        container.append(messageDiv);
+        messagePanelHead.append(messageAuthor);
+        messagePanelBody.append(messageContent);
+        messagePanel.append(messagePanelHead);
+        messagePanel.append(messagePanelBody);
+        container.append(messagePanel);
     }
 }
+
 /**
  * Requests all the messages from the server
  */
@@ -35,8 +40,8 @@ function populateMessages() {
  *      The textarea containing our message
  */
 function postMessage(textarea) {
-    var string = textarea.val();
-    var author = "Luke Dowell";
+    var string = $("#"+textarea).val();
+    var author = $(".user-name").text();
     var data = {message: string, author: author};
     $.ajax({
         type: "POST",
@@ -55,7 +60,9 @@ function postMessage(textarea) {
 }
 
 function displayPostUI() {
-
+    $('.login-wrapper').fadeOut(function() {
+        $('.message-utils').fadeIn();
+    });
 }
 
 /**
@@ -108,5 +115,9 @@ $(document).ready(function() {
 
     $("#loginButton").on('click', function() {
         loginHandler();
+    });
+
+    $("#submitButton").on('click', function() {
+        postMessage('postArea');
     });
 });
