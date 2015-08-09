@@ -1,3 +1,7 @@
+#Heroku
+Link: https://prime-boards.herokuapp.com/
+
+Admin username is "Admin" and the password is "password"
 
 #Challenge
 Hey Everyone!
