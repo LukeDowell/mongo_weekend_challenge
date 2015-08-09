@@ -23,7 +23,11 @@ router.post("/", function(req, res) {
 });
 
 router.delete("/", function(req, res) {
-    
+    Post.findByIdAndRemove(req.params.id, req.body, function(err, host) {
+        if(err)
+           console.log(err);
+        res.status(204).send("Delete successful!");
+    });
 });
 
 module.exports = router;

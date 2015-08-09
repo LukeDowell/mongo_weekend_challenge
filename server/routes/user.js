@@ -29,15 +29,15 @@ function loginHandler(username, password, response) {
         if(err) console.log(err);
         if(user != null) {
             if(user.password === password) {
-                response.send("success");
+                response.status(200).send(user);
             } else {
-                response.status(500).send("incorrectr password");
+                response.status(401).send("incorrectr password");
             }
         } else {
-            var newUser = new User({name: username, password: password});
+            var newUser = new User({name: username, password: password, isAdmin: false});
             newUser.save(function(err, user) {
                 if(err) console.log(err);
-                response.send("created");
+                response.status(201).send(user);
             });
         }
     });

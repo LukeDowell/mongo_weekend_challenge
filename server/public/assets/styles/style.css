@@ -23,12 +23,32 @@
     width: 100%;
 }
 
+.panel-heading {
+    position: relative;
+}
+
+.panel-heading button{
+    position: absolute;
+    righT: 0;
+    top: 0;
+}
+
 .panel-body button {
-    width: 100%;
     height: 75px;
     padding: 20px;
 }
 
+#submitButton {
+    width: 74%;
+}
+
+#refreshButton {
+    width: 25%;
+}
+
+.button-group {
+    display: inline;
+}
 .panel-heading {
     padding: 1px;
     margin: 0;

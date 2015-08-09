@@ -1,7 +1,10 @@
 /**
  * Created by lukedowell on 8/7/15.
  */
-function pushMessagesToTheDomAndRemoveAllOfTheOldMessages(messages) {
+
+var isAdmin = false;
+
+function pushMessagesToTheDomAndRemoveAllOfTheOldMessagesHahaWeeeeeeeeeeeeeeeeee(messages) {
     var container = $(".post-wrapper");
     container.empty();
     for(var i = 0; i < messages.length; i++) {
@@ -15,6 +18,15 @@ function pushMessagesToTheDomAndRemoveAllOfTheOldMessages(messages) {
         messagePanelBody.append(messageContent);
         messagePanel.append(messagePanelHead);
         messagePanel.append(messagePanelBody);
+
+        if(isAdmin) {
+            var deleteButton = $("<button/>", {
+                class: "btn btn-danger",
+                text: "X",
+                'data-id': messages[i]._id
+            });
+            messagePanelHead.append(deleteButton);
+        }
         container.append(messagePanel);
     }
 }
@@ -28,7 +40,7 @@ function populateMessages() {
         type: "GET",
         url: "/message",
         success: function(messages) {
-            pushMessagesToTheDomAndRemoveAllOfTheOldMessages(messages);
+            pushMessagesToTheDomAndRemoveAllOfTheOldMessagesHahaWeeeeeeeeeeeeeeeeee(messages);
             console.log(messages);
         }
     });
@@ -59,6 +71,30 @@ function postMessage(textarea) {
     });
 }
 
+/**
+ * Deletes a message from the database
+ * @param id
+ *      The id of the message to delete
+ * @param message
+ *      The dom element to remove upon success
+ */
+function deleteMessage(id, message) {
+    $.ajax({
+        type: 'DELETE',
+        url: '/message',
+        data: id,
+        statusCode: {
+            204: function() {
+                message.remove();
+                console.log("Post with id: " + id + "\nRemoved!");
+            }
+        }
+    });
+}
+
+/**
+ * Fades out the login ui and brings in the post ui
+ */
 function displayPostUI() {
     $('.login-wrapper').fadeOut(function() {
         $('.message-utils').fadeIn();
@@ -73,25 +109,33 @@ function loginHandler() {
     var password = $("#passField").val();
     if(username.length < 1 || password.length < 1) {
         alert("Please fill out both fields before submitting a request");
+        return;
     }
     var request = {username: username, password: password};
     $.ajax({
         type: "POST",
         url: "/user/login",
         data: request,
-        success: function(response) {
-            if(response == 'success') {
+        statusCode: {
+            200: function(response) {
                 displayAlert('loginSuccess');
-            } else if(response == 'created') {
+            },
+            201: function(response) {
                 displayAlert('loginCreated');
+            },
+            400: function(response) {
+                displayAlert('loginFailed')
             }
-            $(".user-name").text(username);
-            displayPostUI();
         },
-        error: function(error) {
-            displayAlert('loginFailed')
+        success: function(response) {
+            $(".user-name").text(response.name);
+            if(response.isAdmin) {
+                isAdmin = true;
+                populateMessages();
+            }
+            displayPostUI();
         }
-    })
+    });
 }
 
 /**
@@ -106,7 +150,7 @@ function displayAlert(alertID) {
  * Entry point
  */
 $(document).ready(function() {
-    //populateMessages();
+    populateMessages();
 
     $("#postMessage").on('click', function() {
         var textArea = $("#postArea");
@@ -119,5 +163,15 @@ $(document).ready(function() {
 
     $("#submitButton").on('click', function() {
         postMessage('postArea');
+    });
+
+    $("#refreshButton").on('click', function() {
+        populateMessages();
+    });
+
+    $(".post-wrapper").on('click', 'button', function() {
+        var id = $(this).data('id');
+        var message = $(this).parent().parent();
+        deleteMessage(id, message);
     });
 });
