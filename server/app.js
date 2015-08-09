@@ -2,7 +2,6 @@
  * Created by lukedowell on 8/7/15.
  */
 var express = require('express');
-var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
@@ -12,7 +11,7 @@ var message = require('./routes/message');
 
 var app = express();
 
-var mongoURI = "mongodb://localhost/message_board";
+var mongoURI = "mongodb://admin:password@ds031893.mongolab.com:31893/message_board";
 var mongoDB = mongoose.connect(mongoURI).connection;
 
 mongoDB.on('error', function(err) {
