@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prime Message Boards</title>
+
+    <!--Styling-->
+    <link rel="stylesheet" href="../vendors/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../assets/styles/style.css"/>
+</head>
+<body>
+    <div class="jumbotron">
+        <h1>Magical Mongo Messager</h1>
+        <p>brought to you in part by Prime Academy, MongoDB and PBS</p>
+        <p class="current-user">Current User: <span class="user-name">none</span></p>
+    </div>
+    <div class="container">
+        <div class="panel panel-primary col-sm-10 col-sm-offset-1">
+            <div class="panel-body message-utils">
+                <div class="input-group input-group-lg">
+                    <label for="userField">Username</label>
+                    <input id="userField" type="text" class="form-control"/>
+                </div>
+
+                <div class="input-group input-group-lg">
+                    <label for="passField">Password</label>
+                    <input id="passField" type="password" class="form-control"/>
+                </div>
+
+                <button class='btn btn-primary' id="loginButton">LOGIN</button>
+            </div>
+        </div>
+        <div class="alerts-wrapper col-sm-6 col-sm-offset-3">
+            <div id='loginSuccess' class="alert alert-success"><p>Login Successful!</p></div>
+            <div id='loginFailed' class="alert alert-danger"><p>Login failed!</p></div>
+            <div id='loginCreated' class="alert alert-info">Account created!</div>
+        </div>
+
+        <div class="post-wrapper col-sm-8 col-sm-offset-2">
+           <div class="panel panel-info">
+               <div class="panel-heading">
+                    <h3>Luke Dowell said...</h3>
+               </div>
+               <div class="panel-body">
+                    <p>LOLOLOLOLOLOLOLOLOLOLOLOLOLOL</p>
+               </div>
+           </div>
+        </div>
+    </div>
+    <!-- Begin Scripts -->
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/scripts/app.min.js"></script>
+</body>
+</html>
